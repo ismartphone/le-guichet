@@ -7,7 +7,10 @@ use App\Http\Controllers\MatchController;
 use App\Http\Controllers\TribuneController;
 use App\Http\Controllers\ReservationController;
 
+
+
 // ─── Routes publiques ────────────────────────────────────────────────────────
+Route::get('/sync-matchs', [MatchController::class, 'syncFromApi']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login',    [AuthController::class, 'login']);
 
