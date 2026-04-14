@@ -12,7 +12,9 @@ export default function Matchs() {
     matchsAPI.getAll()
       .then((res) => {
         const data = res.data;
-        setMatchs(Array.isArray(data) ? data : data.data || []);
+        // L'API retourne {a_venir: [...], termines: [...]}
+        const tous = [...(data.a_venir||[]),...(data.termines||[])];
+        setMatchs(tous);
       })
       .catch(() => setError('Impossible de charger les matchs'))
       .finally(() => setLoading(false));
