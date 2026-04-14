@@ -83,6 +83,7 @@ export default function MatchDetail() {
   }
 
   const tribunes = match.stade?.tribunes || [];
+  const isMatchPasse = new Date(match.date_match) < new Date() || match.statut === 'termine';
 
   return (
     <div className="max-w-7xl mx-auto mt-6">
@@ -96,7 +97,19 @@ export default function MatchDetail() {
               )}
               <span className="font-bold text-lg">{match.club_domicile?.nom}</span>
             </div>
-            <span className="text-xl font-bold text-gray-400">vs</span>
+            {isMatchPasse && match.score_domicile != null ? (
+              <div className="text-3xl font-bold">
+                <span className={match.score_domicile > match.score_exterieur ? 'text-green-600' : 'text-gray-700'}>
+                  {match.score_domicile}
+                </span>
+                <span className="text-gray-400 mx-2">-</span>
+                <span className={match.score_exterieur > match.score_domicile ? 'text-green-600' : 'text-gray-700'}>
+                  {match.score_exterieur}
+                </span>
+              </div>
+            ) : (
+              <span className="text-xl font-bold text-gray-400">vs</span>
+            )}
             <div className="flex items-center gap-4">
               {match.club_exterieur?.logo && (
                 <img src={match.club_exterieur.logo} alt="" className="w-12 h-12 object-contain" />
@@ -127,9 +140,16 @@ export default function MatchDetail() {
       <div className="flex gap-6">
         {/* Colonne gauche — Liste des tribunes */}
         <div className="w-[350px] shrink-0">
-          <h2 className="text-lg font-bold mb-3 text-gray-700 italic">
-            Choisissez votre zone sur le plan ou dans la liste ci-dessous
-          </h2>
+          {isMatchPasse && (
+            <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-4 text-center font-medium">
+              Ce match est termine, la reservation n'est plus disponible.
+            </div>
+          )}
+          {!isMatchPasse && (
+            <h2 className="text-lg font-bold mb-3 text-gray-700 italic">
+              Choisissez votre zone sur le plan ou dans la liste ci-dessous
+            </h2>
+          )}
 
           {tribunes.length === 0 ? (
             <p className="text-gray-500">Aucune tribune disponible.</p>
@@ -138,11 +158,13 @@ export default function MatchDetail() {
               {tribunes.map((tribune) => (
                 <div
                   key={tribune.id}
-                  onClick={() => setSelectedTribune(tribune)}
-                  className={`border-l-4 bg-white rounded-r-lg shadow-sm p-4 cursor-pointer transition ${
-                    selectedTribune?.id === tribune.id
-                      ? 'border-green-500 bg-green-50 shadow-md'
-                      : 'border-blue-400 hover:bg-gray-50'
+                  onClick={() => !isMatchPasse && setSelectedTribune(tribune)}
+                  className={`border-l-4 bg-white rounded-r-lg shadow-sm p-4 transition ${
+                    isMatchPasse
+                      ? 'border-gray-300 opacity-60 cursor-not-allowed'
+                      : selectedTribune?.id === tribune.id
+                      ? 'border-green-500 bg-green-50 shadow-md cursor-pointer'
+                      : 'border-blue-400 hover:bg-gray-50 cursor-pointer'
                   }`}
                 >
                   <div className="flex justify-between items-center">
