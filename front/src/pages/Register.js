@@ -22,8 +22,8 @@ export default function Register() {
     } catch (err) {
       const data = err.response?.data;
       if (data?.errors) {
-        const firstError = Object.values(data.errors)[0][0];
-        setError(firstError);
+        const errors = Object.values(data.errors);
+        setError(errors.length > 0 && errors[0].length > 0 ? errors[0][0] : 'Erreur de validation');
       } else {
         setError(data?.message || "Erreur lors de l'inscription");
       }

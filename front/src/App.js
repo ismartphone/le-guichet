@@ -14,6 +14,7 @@ import Matchs from './pages/Matchs';
 import MatchDetail from './pages/MatchDetail';
 import Clubs from './pages/Clubs';
 import ClubDetail from './pages/ClubDetail';
+import NotFound from './pages/NotFound';
 
 // Pages protégées
 import MesReservations from './pages/MesReservations';
@@ -65,6 +66,9 @@ function App() {
               <Route path="/admin/tribunes" element={
                 <PrivateRoute adminOnly><AdminTribunes /></PrivateRoute>
               } />
+
+              {/* 404 */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

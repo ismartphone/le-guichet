@@ -74,7 +74,7 @@ export default function MesReservations() {
                   <p className="text-sm text-gray-500">
                     Places : <span className="font-medium">{resa.nb_places}</span> —
                     Total : <span className="font-bold text-green-600">
-                      {(resa.tribune?.prix * resa.nb_places).toFixed(2)} €
+                      {((resa.tribune?.prix || 0) * resa.nb_places).toFixed(2)} €
                     </span>
                   </p>
                 </div>

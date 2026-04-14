@@ -12,7 +12,10 @@ export default function AdminClubs() {
   const fetchClubs = () => {
     setLoading(true);
     clubsAPI.getAll()
-      .then((res) => setClubs(res.data))
+      .then((res) => {
+        const data = res.data;
+        setClubs(Array.isArray(data) ? data : data.data || []);
+      })
       .finally(() => setLoading(false));
   };
 

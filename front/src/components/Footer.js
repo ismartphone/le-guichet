@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-400 mt-auto">
@@ -6,15 +8,16 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-bold text-lg mb-3">Le Guichet</h3>
             <p className="text-sm">
-              Votre plateforme de réservation de billets pour les matchs de football.
+              Votre plateforme de reservation de billets pour les matchs de football.
             </p>
           </div>
           <div>
             <h3 className="text-white font-bold text-lg mb-3">Navigation</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/matchs" className="hover:text-white transition">Matchs</a></li>
-              <li><a href="/login" className="hover:text-white transition">Connexion</a></li>
-              <li><a href="/register" className="hover:text-white transition">Inscription</a></li>
+              <li><Link to="/matchs" className="hover:text-white transition">Matchs</Link></li>
+              <li><Link to="/clubs" className="hover:text-white transition">Clubs</Link></li>
+              <li><Link to="/login" className="hover:text-white transition">Connexion</Link></li>
+              <li><Link to="/register" className="hover:text-white transition">Inscription</Link></li>
             </ul>
           </div>
           <div>
@@ -26,7 +29,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-4 text-center text-sm">
-          &copy; {new Date().getFullYear()} Le Guichet — Tous droits réservés.
+          &copy; {new Date().getFullYear()} Le Guichet — Tous droits reserves.
         </div>
       </div>
     </footer>
