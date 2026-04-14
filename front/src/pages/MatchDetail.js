@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { matchsAPI, reservationsAPI } from '../services/api';
+import { matchsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import StadiumMap from '../components/StadiumMap';
-import { MOCK_MATCHS } from '../services/mockData'; // TODO: supprimer quand backend prêt
-
-const USE_MOCK = false;
 
 export default function MatchDetail() {
   const { id } = useParams();
@@ -15,21 +12,10 @@ export default function MatchDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Réservation
   const [selectedTribune, setSelectedTribune] = useState(null);
   const [nbPlaces, setNbPlaces] = useState(1);
-  const [reserving, setReserving] = useState(false);
-  const [success, setSuccess] = useState('');
-  const [reserveError, setReserveError] = useState('');
 
   useEffect(() => {
-    if (USE_MOCK) {
-      const found = MOCK_MATCHS.find((m) => m.id === parseInt(id));
-      setMatch(found || null);
-      if (!found) setError('Match introuvable');
-      setLoading(false);
-      return;
-    }
     matchsAPI.getOne(id)
       .then((res) => {
         const data = res.data;
@@ -39,28 +25,18 @@ export default function MatchDetail() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const handleReserve = async () => {
+  const handleReserve = () => {
     if (!user) {
       navigate('/login');
       return;
     }
-    setReserving(true);
-    setReserveError('');
-    setSuccess('');
-    try {
-      await reservationsAPI.create({
-        match_id: parseInt(id),
-        tribune_id: selectedTribune.id,
-        nb_places: nbPlaces,
-      });
-      setSuccess(`${nbPlaces} place(s) réservée(s) en ${selectedTribune.nom} !`);
-      setSelectedTribune(null);
-      setNbPlaces(1);
-    } catch (err) {
-      setReserveError(err.response?.data?.message || 'Erreur lors de la réservation');
-    } finally {
-      setReserving(false);
-    }
+    navigate('/paiement', {
+      state: {
+        match: match,
+        tribune: selectedTribune,
+        nbPlaces: nbPlaces,
+      }
+    });
   };
 
   const formatDate = (dateStr) => {
@@ -124,19 +100,7 @@ export default function MatchDetail() {
         </div>
       </div>
 
-      {/* Messages */}
-      {success && (
-        <div className="bg-green-50 text-green-700 p-4 rounded-lg mb-4 text-center font-medium">
-          {success}
-        </div>
-      )}
-      {reserveError && (
-        <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-4 text-center">
-          {reserveError}
-        </div>
-      )}
-
-      {/* Layout 2 colonnes : liste à gauche, stade à droite */}
+      {/* Layout 2 colonnes */}
       <div className="flex gap-6">
         {/* Colonne gauche — Liste des tribunes */}
         <div className="w-[350px] shrink-0">
@@ -177,7 +141,6 @@ export default function MatchDetail() {
                     </svg>
                   </div>
 
-                  {/* Formulaire de réservation inline */}
                   {selectedTribune?.id === tribune.id && (
                     <div className="mt-3 pt-3 border-t border-gray-200">
                       <div className="flex items-center gap-3 mb-3">
@@ -197,10 +160,9 @@ export default function MatchDetail() {
                       </div>
                       <button
                         onClick={(e) => { e.stopPropagation(); handleReserve(); }}
-                        disabled={reserving}
-                        className="w-full bg-green-600 text-white py-2 rounded font-semibold text-sm hover:bg-green-700 transition disabled:opacity-50"
+                        className="w-full bg-green-600 text-white py-2 rounded font-semibold text-sm hover:bg-green-700 transition"
                       >
-                        {reserving ? 'Réservation...' : 'Réserver'}
+                        Réserver
                       </button>
                     </div>
                   )}

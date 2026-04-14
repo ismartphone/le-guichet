@@ -20,7 +20,9 @@ export default function AdminMatchs() {
     setLoading(true);
     Promise.all([matchsAPI.getAll(), clubsAPI.getAll()])
       .then(([matchsRes, clubsRes]) => {
-        setMatchs(matchsRes.data);
+        const data = matchsRes.data;
+        const tous = [...(data.a_venir ? data.a_venir : []), ...(data.termines ? data.termines : [])];
+        setMatchs(tous);
         setClubs(clubsRes.data);
       })
       .finally(() => setLoading(false));
