@@ -48,4 +48,31 @@ class ReservationController extends Controller
 
         return response()->json(['message' => 'Réservation annulée.']);
     }
+
+    public function resa(Request $request)
+    {
+    $request->validate([
+        'match_id'   => 'required|exists:matchs,id',
+        'tribune_id' => 'required|exists:tribunes,id',
+        'nb_places'  => 'required|integer|min:1|max:10',
+    ]);
+
+    // Vérifier que le match est à venir
+    $match = \App\Models\FootballMatch::findOrFail($request->match_id);
+    
+    if ($match->statut === 'termine') {
+        return response()->json(['message' => 'Impossible de réserver pour un match terminé.'], 403);
+    }
+
+    $reservation = Reservation::create([
+        'user_id'    => $request->user()->id,
+        'match_id'   => $request->match_id,
+        'tribune_id' => $request->tribune_id,
+        'nb_places'  => $request->nb_places,
+        'statut'     => 'confirmee',
+    ]);
+
+    return response()->json($reservation, 201);
+    }
 }
+
