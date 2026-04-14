@@ -12,6 +12,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Matchs from './pages/Matchs';
 import MatchDetail from './pages/MatchDetail';
+import Clubs from './pages/Clubs';
+import ClubDetail from './pages/ClubDetail';
 
 // Pages protégées
 import MesReservations from './pages/MesReservations';
@@ -36,6 +38,8 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/matchs" element={<Matchs />} />
               <Route path="/matchs/:id" element={<MatchDetail />} />
+              <Route path="/clubs" element={<Clubs />} />
+              <Route path="/clubs/:id" element={<ClubDetail />} />
 
               {/* Routes protégées (user connecté) */}
               <Route path="/paiement" element={

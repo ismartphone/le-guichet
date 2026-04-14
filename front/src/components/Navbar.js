@@ -21,6 +21,9 @@ export default function Navbar() {
           <Link to="/matchs" className="hover:text-green-200 transition">
             Matchs
           </Link>
+          <Link to="/clubs" className="hover:text-green-200 transition">
+            Clubs
+          </Link>
 
           {user ? (
             <>
