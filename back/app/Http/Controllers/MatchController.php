@@ -11,8 +11,20 @@ class MatchController extends Controller
     // Liste tous les matchs
     public function index()
     {
-        $matchs = FootballMatch::with(['clubDomicile', 'clubExterieur', 'stade'])->get();
-        return response()->json($matchs);
+        $aVenir = FootballMatch::with(['clubDomicile', 'clubExterieur', 'stade'])
+            ->where('statut', 'a_venir')
+            ->orderBy('date_match', 'asc')
+            ->get();
+
+        $termines = FootballMatch::with(['clubDomicile', 'clubExterieur', 'stade'])
+            ->where('statut', 'termine')
+            ->orderBy('date_match', 'desc')
+            ->get();
+
+        return response()->json([
+            'a_venir'  => $aVenir,
+            'termines' => $termines,
+        ]);
     }
  
     // Détail d'un match 
