@@ -95,16 +95,6 @@ const ZONE_BLOCKS = [
   allBlocks.coinSO,
 ];
 
-const LABEL_POSITIONS = [
-  { x: 380, y: 48 },
-  { x: 380, y: 430 },
-  { x: 673, y: 240 },
-  { x: 86, y: 240 },
-  { x: 90, y: 50 },
-  { x: 660, y: 50 },
-  { x: 660, y: 430 },
-  { x: 90, y: 430 },
-];
 
 export default function StadiumMap({ tribunes, selectedTribune, onSelect }) {
   const getColor = (index) => TRIBUNE_COLORS[index % TRIBUNE_COLORS.length];

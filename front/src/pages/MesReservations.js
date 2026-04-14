@@ -9,7 +9,10 @@ export default function MesReservations() {
   const fetchReservations = () => {
     setLoading(true);
     reservationsAPI.getAll()
-      .then((res) => setReservations(res.data))
+      .then((res) => {
+        const data = res.data;
+        setReservations(Array.isArray(data) ? data : data.data || []);
+      })
       .catch(() => setError('Impossible de charger vos réservations'))
       .finally(() => setLoading(false));
   };

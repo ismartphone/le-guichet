@@ -31,7 +31,10 @@ export default function MatchDetail() {
       return;
     }
     matchsAPI.getOne(id)
-      .then((res) => setMatch(res.data))
+      .then((res) => {
+        const data = res.data;
+        setMatch(data.data || data);
+      })
       .catch(() => setError('Match introuvable'))
       .finally(() => setLoading(false));
   }, [id]);
