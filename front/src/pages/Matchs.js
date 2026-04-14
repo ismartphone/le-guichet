@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { matchsAPI } from '../services/api';
 import { MOCK_MATCHS } from '../services/mockData'; // TODO: supprimer quand backend prêt
 
-const USE_MOCK = true; // TODO: passer à false quand backend prêt
+const USE_MOCK = false;
 
 export default function Matchs() {
   const [matchs, setMatchs] = useState([]);

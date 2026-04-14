@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import StadiumMap from '../components/StadiumMap';
 import { MOCK_MATCHS } from '../services/mockData'; // TODO: supprimer quand backend prêt
 
-const USE_MOCK = true; // TODO: passer à false quand backend prêt
+const USE_MOCK = false;
 
 export default function MatchDetail() {
   const { id } = useParams();
