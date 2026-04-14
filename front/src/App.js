@@ -3,6 +3,8 @@ import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
+import Paiement from './pages/Paiement';
+import Confirmation from './pages/Confirmation';
 
 // Pages publiques
 import Home from './pages/Home';
@@ -36,6 +38,12 @@ function App() {
               <Route path="/matchs/:id" element={<MatchDetail />} />
 
               {/* Routes protégées (user connecté) */}
+              <Route path="/paiement" element={
+                <PrivateRoute><Paiement /></PrivateRoute>
+              } />
+              <Route path="/confirmation" element={
+                <PrivateRoute><Confirmation /></PrivateRoute>
+              } />
               <Route path="/reservations" element={
                 <PrivateRoute><MesReservations /></PrivateRoute>
               } />
