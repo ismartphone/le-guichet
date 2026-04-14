@@ -1,9 +1,65 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import PrivateRoute from './components/PrivateRoute';
+
+// Pages publiques
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Matchs from './pages/Matchs';
+import MatchDetail from './pages/MatchDetail';
+
+// Pages protégées
+import MesReservations from './pages/MesReservations';
+
+// Pages admin
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminClubs from './pages/admin/AdminClubs';
+import AdminMatchs from './pages/admin/AdminMatchs';
+import AdminTribunes from './pages/admin/AdminTribunes';
+
 function App() {
   return (
-    <div>
-      <h1>Le Guichet</h1>
-    </div>
-  )
+    <Router>
+      <AuthProvider>
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+          <Navbar />
+          <main className="px-4 pb-12 flex-1">
+            <Routes>
+              {/* Routes publiques */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/matchs" element={<Matchs />} />
+              <Route path="/matchs/:id" element={<MatchDetail />} />
+
+              {/* Routes protégées (user connecté) */}
+              <Route path="/reservations" element={
+                <PrivateRoute><MesReservations /></PrivateRoute>
+              } />
+
+              {/* Routes admin */}
+              <Route path="/admin" element={
+                <PrivateRoute adminOnly><AdminDashboard /></PrivateRoute>
+              } />
+              <Route path="/admin/clubs" element={
+                <PrivateRoute adminOnly><AdminClubs /></PrivateRoute>
+              } />
+              <Route path="/admin/matchs" element={
+                <PrivateRoute adminOnly><AdminMatchs /></PrivateRoute>
+              } />
+              <Route path="/admin/tribunes" element={
+                <PrivateRoute adminOnly><AdminTribunes /></PrivateRoute>
+              } />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </AuthProvider>
+    </Router>
+  );
 }
 
 export default App;
