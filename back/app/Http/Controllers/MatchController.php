@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Match as FootballMatch;
+use App\Models\FootballMatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -14,8 +14,8 @@ class MatchController extends Controller
         $matchs = FootballMatch::with(['clubDomicile', 'clubExterieur', 'stade'])->get();
         return response()->json($matchs);
     }
-
-    // Détail d'un match
+ 
+    // Détail d'un match 
     public function show($id)
     {
         $match = FootballMatch::with(['clubDomicile', 'clubExterieur', 'stade', 'stade.tribunes'])->findOrFail($id);

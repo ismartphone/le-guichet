@@ -175,7 +175,6 @@ export default function StadiumMap({ tribunes, selectedTribune, onSelect }) {
           const blocks = ZONE_BLOCKS[zi];
           const isSelected = selectedTribune?.id === tribune.id;
           const color = getColor(i);
-          const lp = LABEL_POSITIONS[zi];
 
           return (
             <g key={tribune.id} onClick={() => onSelect(tribune)} className="cursor-pointer">
